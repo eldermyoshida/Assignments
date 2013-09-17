@@ -66,24 +66,82 @@
 )
 
 ;;; Return whether element a is contained in any level of S-expression lst
-(define (member?* a lst) null)
+(define (member?* a lst) 
+  (cond
+    ((null? lst) #f)
+    ((equal? a (car lst)) #t)
+    ((and (list? (car lst)) 
+          (member?* a (car lst))
+    ))
+    (else 
+      (cond 
+         ((equal? a (car lst)) #t)
+         (else (member?* a (cdr lst)))
+      )
+    )
+  )
+)
 
 ;;; Return the intersection of sets set1 and set2
 ;;; set1 and set2 are guaranteed not to contain duplicate elements
-(define (intersect set1 set2) null)
+(define (intersect set1 set2)
+    (cond 
+        ((null? set1) null)
+        (else
+           (let ((rest (intersect (cdr set1) set2))) ;;; let asigns variable
+           (if (member? (car set1) set2)
+               (cons (car set1) rest)
+               rest
+           ))
+        )
+    )
+)
 
 ;;; Return whether the list contains two equal adjacent elements
-(define (two-in-a-row? lst) null)
+(define (two-in-a-row? lst) 
+  (define (two-in-a-row-helper last lst)
+    (cond 
+      ((null? lst) #f)
+      ((equal? last (car lst)) #t)
+      (else
+       (two-in-a-row-helper (car lst) (cdr lst)))))
+
+    (and (not (null? lst))
+       (two-in-a-row-helper (car lst) (cdr lst)))
+)
+
+
 
 ;;; Return the nth element of a list
-(define (nth lst n) null)
+(define (nth lst n) 
+  (cond 
+    ((null? lst) null)
+    ((member? (car lst) (cdr lst))
+     (dedup? (cdr lst)))
+    (else
+     (cons (car lst) (dedup (cdr lst))))))
 
 ;;; Return a list containing the unique elements of lst
-(define (dedup lst) null)
+(define (dedup lst)
+  (cond
+    ((null? lst) null)
+    ((member? (car lst) (cdr lst))
+     (dedup (cdr lst)))
+    (else
+     (cons (car lst) (dedup (cdr lst))))
+    ) 
+)
 
 ;;; Return a list containing the elements of lst in reverse order
-(define (reverse lst) null)
-
+(define (reverse lst) 
+  (define (rev-h lst rlst)
+    (cond
+      ((null? lst) rev)
+      ((else 
+        ((rev-h (cdr lst) (cons (car lst) rev))))))
+  )
+  (rev-h lst '())
+)
 (provide
  sum-to-n
  combination
