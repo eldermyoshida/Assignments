@@ -113,7 +113,12 @@
 
 
 ;;; Return the nth element of a list
-(define (nth lst n) null)
+(define (nth lst n)
+  (cond 
+    ((null? lst) '())
+    ((zero? n) (car lst))
+    (else 
+     (nth (cdr lst) (- n 1)))))
 
 ;;; Return a list containing the unique elements of lst
 (define (dedup lst)
