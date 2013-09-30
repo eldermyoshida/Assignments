@@ -129,16 +129,11 @@
 ;;; Return a list containing the elements of lst in reverse order
 (define (reverse lst) 
   (define (rev-h lst rlst)
-    (cond 
-      ((null? lst) rlst)
-      (else 
-       (rev-h (cdr lst) (cons (car lst) rlst)))
+    ((null? lst)    
     )
   )
-  (rev-h lst '())
+ 
 )
-
-
 (provide
  sum-to-n
  combination
